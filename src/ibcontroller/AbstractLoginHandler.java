@@ -54,14 +54,29 @@ public abstract class AbstractLoginHandler implements WindowHandler {
     public abstract boolean recogniseWindow(Window window);
     
     private void doLogin(final Window window) throws IBControllerException {
-        if (SwingUtils.findButton(window, "Log In") == null) throw new IBControllerException("Login button");
+        String logInButtonText = "Log In";
 
-        GuiDeferredExecutor.instance().execute(new Runnable() {
-            @Override
-            public void run() {
-                SwingUtils.clickButton(window, "Log In");
-            }
-        });
+        if (SwingUtils.findButton(window, logInButtonText) == null)
+            logInButtonText = "Paper Log In";
+
+        if (SwingUtils.findButton(window, logInButtonText) == null)
+            throw new IBControllerException("Login button");
+
+        if(logInButtonText.equals("Log In")) {
+            GuiDeferredExecutor.instance().execute(new Runnable() {
+                @Override
+                public void run() {
+                    SwingUtils.clickButton(window, "Log In");
+                }
+            });
+        } else {
+            GuiDeferredExecutor.instance().execute(new Runnable() {
+                @Override
+                public void run() {
+                    SwingUtils.clickButton(window, "Paper Log In");
+                }
+            });
+        }
     }
     
     protected abstract boolean initialise(final Window window, int eventID) throws IBControllerException;
