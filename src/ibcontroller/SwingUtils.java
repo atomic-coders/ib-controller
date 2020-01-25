@@ -648,6 +648,11 @@ class SwingUtils {
             builder.append("{");
             builder.append("JList: ");
             builder.append("}");
+        } else {
+            builder.append("{");
+            builder.append("component: ");
+            builder.append(component.toString());
+            builder.append("}");
         }
     }
     
