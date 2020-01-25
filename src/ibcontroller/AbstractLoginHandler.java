@@ -99,7 +99,15 @@ public abstract class AbstractLoginHandler implements WindowHandler {
                     tradingModeCombo.setSelectedItem("Paper Trading");
                 }
             }
+        } else {
+            StringBuilder sb = new StringBuilder();
+            for (String s : SwingUtils.getAllLabels(window))
+            {
+                sb.append(s);
+                sb.append("\t");
+            }
+
+            Utils.logToConsole("Could not find Trading mode = " + tradingMode + " in Lables:" + sb.toString());
         }
     }
-    
 }
