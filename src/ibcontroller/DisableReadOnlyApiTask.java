@@ -19,15 +19,13 @@
 package ibcontroller;
 
 import javax.swing.*;
+import java.awt.*;
 
 class DisableReadOnlyApiTask implements ConfigurationAction{
 
-    private final CommandChannel mChannel;
-
     private JDialog configDialog;
 
-    DisableReadOnlyApiTask(final CommandChannel channel) {
-        mChannel = channel;
+    DisableReadOnlyApiTask() {
     }
 
     @Override public void run() {
@@ -45,14 +43,11 @@ class DisableReadOnlyApiTask implements ConfigurationAction{
                 cb.doClick();
                 SwingUtils.clickButton(configDialog, "OK");
                 Utils.logToConsole("TWS has been configured to accept write API connections");
-                mChannel.writeAck("configured");
             } else {
                 Utils.logToConsole("TWS is already configured to accept write API connections");
-                mChannel.writeAck("already configured");
             }
         } catch (IBControllerException e) {
             Utils.logError("IBControllerServer: " + e.getMessage());
-            mChannel.writeNack(e.getMessage());
         }
     }
 

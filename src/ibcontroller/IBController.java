@@ -456,6 +456,7 @@ public class IBController {
 
         int portNumber = Settings.settings().getInt("ForceTwsApiPort", 0);
         if (portNumber != 0) (new ConfigurationTask(new ConfigureTwsApiPortTask(portNumber))).executeAsync();
+        (new ConfigurationTask(new DisableReadOnlyApiTask())).executeAsync();
         Utils.sendConsoleOutputToTwsLog(!Settings.settings().getBoolean("LogToConsole", false));
     }
     
