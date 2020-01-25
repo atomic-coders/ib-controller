@@ -39,7 +39,7 @@ class DisableReadOnlyApiTask implements ConfigurationAction{
             JCheckBox cb = SwingUtils.findCheckBox(configDialog, "Read-Only API");
             if (cb == null) throw new IBControllerException("could not find Read-Only API checkbox");
 
-            if (!cb.isSelected()) {
+            if (cb.isSelected()) {
                 cb.doClick();
                 SwingUtils.clickButton(configDialog, "OK");
                 Utils.logToConsole("TWS has been configured to accept write API connections");
