@@ -105,7 +105,7 @@ public abstract class AbstractLoginHandler implements WindowHandler {
     }
 
     protected final void setTradingModeCombo(final Window window) throws IBControllerException {
-        int version = Settings.settings().getInt("tws_major_version", 972);
+        int version = Integer.valueOf(System.getenv("TWS_MAJOR_VRSN"));
         Utils.logToConsole("setTradingModeCombo for tws version: " + version);
         if(version >= 978) {
             setTradingModeCombo978(window);
