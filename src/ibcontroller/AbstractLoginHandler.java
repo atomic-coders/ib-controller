@@ -27,7 +27,7 @@ public abstract class AbstractLoginHandler implements WindowHandler {
     @Override
     public boolean filterEvent(Window window, int eventId) {
         switch (eventId) {
-            case WindowEvent.WINDOW_OPENED:
+            case WindowEvent.WINDOW_ACTIVATED:
                 return true;
             default:
                 return false;
