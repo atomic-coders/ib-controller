@@ -179,7 +179,7 @@ class Utils {
         if (!SwingUtilities.isEventDispatchThread()) throw new IllegalStateException("selectConfigSection must be run on the event dispatch thread");
         
         JTree configTree = SwingUtils.findTree(configDialog);
-        if (configTree == null) throw new IBControllerException("could not find the config tree in the Global Configuration dialog");
+        if (configTree == null) throw new IBControllerException("could not find the config tree in the Global Configuration dialog: " + configDialog);
 
         Object node = configTree.getModel().getRoot();
         TreePath tp = new TreePath(node);
