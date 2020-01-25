@@ -115,8 +115,7 @@ final class GatewayLoginFrameHandler extends AbstractLoginHandler {
     }
     
     private void switchToIBAPI(Window window) throws IBControllerException {
-        JRadioButton button = SwingUtils.findRadioButton(window, "IB API");
-        if (button == null) button = SwingUtils.findRadioButton(window, "TWS/API") ;
+        twslaunch.jtscomponents.T button = SwingUtils.findIBButton(window, "IB API");
         if (button == null) throw new IBControllerException("IB API radio button");
         
         if (! button.isSelected()) button.doClick();

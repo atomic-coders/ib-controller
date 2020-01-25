@@ -90,6 +90,25 @@ class SwingUtils {
     }
 
     /**
+     * Traverses a container hierarchy and returns the button with
+     * the given text.
+     * @param container
+     *  the Container to search in
+     * @param text
+     *  the label of the button to be found
+     * @return
+     *  the button, if was found;  otherwise null
+     */
+    static twslaunch.jtscomponents.T findIBButton(Container container, String text) {
+        ComponentIterator iter = new ComponentIterator(container);
+        while (iter.hasNext()) {
+            Component component = iter.next();
+            if (component instanceof twslaunch.jtscomponents.T && text.equals(((twslaunch.jtscomponents.T)component).getText())) return (twslaunch.jtscomponents.T)component;
+        }
+        return null;
+    }
+
+    /**
      * Traverses a container hierarchy and returns the checkbox with
      * the given text.
      * @param container
