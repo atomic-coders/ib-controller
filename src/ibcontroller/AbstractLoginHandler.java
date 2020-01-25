@@ -20,8 +20,7 @@ package ibcontroller;
 
 import java.awt.Window;
 import java.awt.event.WindowEvent;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
+import javax.swing.*;
 
 public abstract class AbstractLoginHandler implements WindowHandler {
     
@@ -80,34 +79,54 @@ public abstract class AbstractLoginHandler implements WindowHandler {
                                             final String value) throws IBControllerException {
         if (! SwingUtils.setTextField(window, credentialIndex, value)) throw new IBControllerException(credentialName);
     }
-    
-    protected final void setTradingModeCombo(final Window window) {
-        if (SwingUtils.findLabel(window, "Trading Mode") != null)  {
-            JComboBox<?> tradingModeCombo;
-            if (Settings.settings().getBoolean("FIX", false)) {
-                tradingModeCombo = SwingUtils.findComboBox(window, 1);
-            } else {
-                tradingModeCombo = SwingUtils.findComboBox(window, 0);
-            }
-            
-            if (tradingModeCombo != null ) {
-                String tradingMode = TradingModeManager.tradingModeManager().getTradingMode();
-                Utils.logToConsole("Setting Trading mode = " + tradingMode);
-                if (tradingMode.equalsIgnoreCase(TradingModeManager.TRADING_MODE_LIVE)) {
-                    tradingModeCombo.setSelectedItem("Live Trading");
+
+    private void switchToPaperTrading(Window window) throws IBControllerException {
+        JRadioButton button = SwingUtils.findRadioButton(window, "Paper Trading");
+        if (button == null) throw new IBControllerException("Paper Trading button");
+        if (! button.isSelected()) button.doClick();
+    }
+
+    private void switchToLiveTrading(Window window) throws IBControllerException {
+        JRadioButton button = SwingUtils.findRadioButton(window, "Live Trading");
+        if (button == null) throw new IBControllerException("Live Trading button");
+        if (! button.isSelected()) button.doClick();
+    }
+
+    protected final void setTradingModeCombo978(final Window window) throws IBControllerException {
+        Utils.logToConsole("setTradingModeCombo");
+        String tradingMode = TradingModeManager.tradingModeManager().getTradingMode();
+        Utils.logToConsole("Setting Trading mode = " + tradingMode);
+        if (tradingMode.equalsIgnoreCase(TradingModeManager.TRADING_MODE_LIVE)) {
+            switchToLiveTrading(window);
+        } else {
+            switchToPaperTrading(window);
+        }
+    }
+
+    protected final void setTradingModeCombo(final Window window) throws IBControllerException {
+        int version = Settings.settings().getInt("tws_major_version", 972);
+        Utils.logToConsole("setTradingModeCombo for tws version: " + version);
+        if(version >= 978) {
+            setTradingModeCombo978(window);
+        } else{
+            if (SwingUtils.findLabel(window, "Trading Mode") != null) {
+                JComboBox<?> tradingModeCombo;
+                if (Settings.settings().getBoolean("FIX", false)) {
+                    tradingModeCombo = SwingUtils.findComboBox(window, 1);
                 } else {
-                    tradingModeCombo.setSelectedItem("Paper Trading");
+                    tradingModeCombo = SwingUtils.findComboBox(window, 0);
+                }
+
+                if (tradingModeCombo != null) {
+                    String tradingMode = TradingModeManager.tradingModeManager().getTradingMode();
+                    Utils.logToConsole("Setting Trading mode = " + tradingMode);
+                    if (tradingMode.equalsIgnoreCase(TradingModeManager.TRADING_MODE_LIVE)) {
+                        tradingModeCombo.setSelectedItem("Live Trading");
+                    } else {
+                        tradingModeCombo.setSelectedItem("Paper Trading");
+                    }
                 }
             }
-        } else {
-            StringBuilder sb = new StringBuilder();
-            for (String s : SwingUtils.getAllLabels(window))
-            {
-                sb.append(s);
-                sb.append("\t");
-            }
-
-            Utils.logToConsole("Could not set Trading mode in Lables:" + sb.toString());
         }
     }
 }

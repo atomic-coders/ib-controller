@@ -98,10 +98,13 @@ final class GatewayLoginFrameHandler extends AbstractLoginHandler {
     
     private void selectGatewayMode(Window window) throws IBControllerException {
         if (Settings.settings().getBoolean("FIX", false)) {
+            Utils.logToConsole("selectGatewayMode to FIX");
             switchToFIX(window);
         } else {
+            Utils.logToConsole("selectGatewayMode to IB API");
             switchToIBAPI(window);
         }
+        Utils.logToConsole("selectGatewayMode done");
     }
     
     private void switchToFIX(Window window) throws IBControllerException {
