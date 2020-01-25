@@ -26,7 +26,7 @@ class GatewayMainWindowFrameHandler  implements WindowHandler {
     @Override
     public boolean filterEvent(Window window, int eventId) {
         switch (eventId) {
-            case WindowEvent.WINDOW_ACTIVATED:
+            case WindowEvent.WINDOW_OPENED:
                 return true;
             default:
                 return false;
@@ -40,13 +40,9 @@ class GatewayMainWindowFrameHandler  implements WindowHandler {
 
     @Override
     public boolean recogniseWindow(Window window) {
-        Utils.logToConsole("GatewayMainWindowFrameHandler recogniseWindow: " + (window instanceof JFrame));
         if (! (window instanceof JFrame)) return false;
-
-        if(((JFrame) window).getTitle().equals("IB Gateway")) {
-            return true;
-        }
 
         return SwingUtils.findMenuItemInAnyMenuBar(window, new String [] {"Help", "About IB Gateway"}) != null;
     }
+
 }
