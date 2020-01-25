@@ -63,7 +63,7 @@ class CommandDispatcher
 
     private void handleEnableAPICommand() {
         if (isGateway) {
-            mChannel.writeNack("ENABLEAPI is not valid for the IB Gateway");
+            (new ConfigurationTask(new DisableReadOnlyApiTask(mChannel))).execute();
             return;
         }
         
