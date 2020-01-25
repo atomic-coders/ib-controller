@@ -49,5 +49,4 @@ class GatewayMainWindowFrameHandler  implements WindowHandler {
 
         return SwingUtils.findMenuItemInAnyMenuBar(window, new String [] {"Help", "About IB Gateway"}) != null;
     }
-
 }

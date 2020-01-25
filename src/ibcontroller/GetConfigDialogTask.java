@@ -67,6 +67,8 @@ class GetConfigDialogTask implements Callable<JDialog>{
         }
         
         if (isGateway) {
+            Utils.logToConsole("invokeMenuItem Configure/Settings" + mainForm.toString());
+            Utils.logRawToConsole(SwingUtils.getWindowStructure(mainForm));
             if (!Utils.invokeMenuItem(mainForm, new String[] {"Configure", "Settings"})) throw new IBControllerException("'Configure > Settings' menu item");
         } else if (Utils.invokeMenuItem(mainForm, new String[] {"Edit", "Global Configuration..."})) /* TWS's Classic layout */ {
         } else if (Utils.invokeMenuItem(mainForm, new String[] {"File", "Global Configuration..."})) /* TWS's Mosaic layout */ {
