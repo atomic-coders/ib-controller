@@ -26,7 +26,7 @@ class GatewayMainWindowFrameHandler  implements WindowHandler {
     @Override
     public boolean filterEvent(Window window, int eventId) {
         switch (eventId) {
-            case WindowEvent.WINDOW_ACTIVATED:
+            case WindowEvent.WINDOW_OPENED:
                 return true;
             default:
                 return false;
