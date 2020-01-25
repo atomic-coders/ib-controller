@@ -82,13 +82,13 @@ public abstract class AbstractLoginHandler implements WindowHandler {
     }
 
     private void switchToPaperTrading(Window window) throws IBControllerException {
-        JRadioButton button = SwingUtils.findRadioButton(window, "Paper Trading");
+        JToggleButton button = SwingUtils.findToggleButton(window, "Paper Trading");
         if (button == null) throw new IBControllerException("Paper Trading button");
         if (! button.isSelected()) button.doClick();
     }
 
     private void switchToLiveTrading(Window window) throws IBControllerException {
-        JRadioButton button = SwingUtils.findRadioButton(window, "Live Trading");
+        JToggleButton button = SwingUtils.findToggleButton(window, "Live Trading");
         if (button == null) throw new IBControllerException("Live Trading button");
         if (! button.isSelected()) button.doClick();
     }
