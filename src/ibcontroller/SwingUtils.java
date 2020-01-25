@@ -187,19 +187,6 @@ class SwingUtils {
         return null;
     }
 
-    static List<String> getAllLabels(Container container) {
-        ComponentIterator iter = new ComponentIterator(container);
-        List<String> lables = new ArrayList<>();
-
-        while (iter.hasNext()) {
-            Component component = iter.next();
-            if (component instanceof JLabel && ((JLabel)component).getText() != null ) {
-                lables.add(((JLabel)component).getText());
-            }
-        }
-        return lables;
-    }
-
     /**
      * Traverses a container hierarchy and returns the ith JTextField
      * (0 based indexing).

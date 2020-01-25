@@ -121,5 +121,4 @@ final class GatewayLoginFrameHandler extends AbstractLoginHandler {
         
         if (! button.isSelected()) button.doClick();
     }
-
 }
