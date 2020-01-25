@@ -24,22 +24,7 @@ import java.awt.Window;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPopupMenu;
-import javax.swing.JRadioButton;
-import javax.swing.JSeparator;
-import javax.swing.JTextField;
-import javax.swing.JTree;
-import javax.swing.MenuElement;
+import javax.swing.*;
 import javax.swing.tree.TreeModel;
 
 class SwingUtils {
@@ -99,11 +84,11 @@ class SwingUtils {
      * @return
      *  the button, if was found;  otherwise null
      */
-    static twslaunch.jtscomponents.T findIBButton(Container container, String text) {
+    static JToggleButton findToggleButton(Container container, String text) {
         ComponentIterator iter = new ComponentIterator(container);
         while (iter.hasNext()) {
             Component component = iter.next();
-            if (component instanceof twslaunch.jtscomponents.T && text.equals(((twslaunch.jtscomponents.T)component).getText())) return (twslaunch.jtscomponents.T)component;
+            if (component instanceof JToggleButton && text.equals(((JToggleButton)component).getText())) return (JToggleButton)component;
         }
         return null;
     }
@@ -511,8 +496,6 @@ class SwingUtils {
      * the window in which to search for the required JRadioButton 
      * @param buttonText
      * the label for the required JRadioButton 
-     * @param value
-     * true to set the JRadioButton ; false to clear it
      * @return
      * true if the JRadioButton  was found; otherwise false
      */
@@ -620,6 +603,11 @@ class SwingUtils {
             builder.append("JButton: "); 
             builder.append(((JButton)component).getText());
             builder.append("}");
+        } else if (component instanceof JToggleButton) {
+            builder.append("{");
+            builder.append("JToggleButton: ");
+            builder.append(((JToggleButton)component).getText());
+            builder.append("}");
         } else if (component instanceof JCheckBox) {
             builder.append("{");
             builder.append("JCheckBox: ");
@@ -666,11 +654,6 @@ class SwingUtils {
         } else if (component instanceof JList) {
             builder.append("{");
             builder.append("JList: ");
-            builder.append("}");
-        } else {
-            builder.append("{");
-            builder.append("component: ");
-            builder.append(component.toString());
             builder.append("}");
         }
     }

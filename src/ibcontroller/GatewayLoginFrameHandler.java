@@ -19,8 +19,7 @@
 package ibcontroller;
 
 import java.awt.Window;
-import javax.swing.JFrame;
-import javax.swing.JRadioButton;
+import javax.swing.*;
 
 final class GatewayLoginFrameHandler extends AbstractLoginHandler {
     
@@ -108,14 +107,14 @@ final class GatewayLoginFrameHandler extends AbstractLoginHandler {
     }
     
     private void switchToFIX(Window window) throws IBControllerException {
-        JRadioButton button = SwingUtils.findRadioButton(window, "FIX CTCI");
+        JToggleButton button = SwingUtils.findRadioButton(window, "FIX CTCI");
         if (button == null) throw new IBControllerException("FIX CTCI radio button");
         
         if (! button.isSelected()) button.doClick();
     }
     
     private void switchToIBAPI(Window window) throws IBControllerException {
-        twslaunch.jtscomponents.T button = SwingUtils.findIBButton(window, "IB API");
+        JToggleButton button = SwingUtils.findToggleButton(window, "IB API");
         if (button == null) throw new IBControllerException("IB API radio button");
         
         if (! button.isSelected()) button.doClick();
