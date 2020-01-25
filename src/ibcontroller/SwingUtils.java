@@ -319,12 +319,16 @@ class SwingUtils {
         int i = 0;
         while (true) {
             JMenuBar menuBar = findMenuBar(container, i);
+
+            Utils.logToConsole("menuBar found? " + menuBar);
+
             if (menuBar == null) {
                 String s = path[0];
                 for (int j = 1; j < path.length; j++) s = s + " > " + path[j];
                 return null;
             }
             JMenuItem menuItem = findMenuItem(menuBar, path);
+            Utils.logToConsole("menuItem found? " + menuItem);
             if (menuItem != null) return menuItem;
             i++;
         }
