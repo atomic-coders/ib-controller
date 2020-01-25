@@ -45,6 +45,7 @@ public class SplashFrameHandler implements WindowHandler {
 
     @Override
     public void handleWindow(Window window, int eventID) {
+        Utils.logToConsole("detectedSplashFrameHandler - closed");
         ConfigDialogManager.configDialogManager().setSplashScreenClosed();
     }
 
@@ -52,7 +53,7 @@ public class SplashFrameHandler implements WindowHandler {
     public boolean recogniseWindow(Window window) {
         if (! (window instanceof JFrame))  return false;
 
-        return (SwingUtils.titleContains(window, "Authenticating..."));
+        return (SwingUtils.titleContains(window, "Starting application..."));
     }
     
 }
