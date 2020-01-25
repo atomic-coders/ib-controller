@@ -54,12 +54,12 @@ public abstract class AbstractLoginHandler implements WindowHandler {
     public abstract boolean recogniseWindow(Window window);
     
     private void doLogin(final Window window) throws IBControllerException {
-        if (SwingUtils.findButton(window, "Login") == null) throw new IBControllerException("Login button");
+        if (SwingUtils.findButton(window, "Log In") == null) throw new IBControllerException("Login button");
 
         GuiDeferredExecutor.instance().execute(new Runnable() {
             @Override
             public void run() {
-                SwingUtils.clickButton(window, "Login");
+                SwingUtils.clickButton(window, "Log In");
             }
         });
     }
