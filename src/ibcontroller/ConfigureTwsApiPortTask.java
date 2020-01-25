@@ -51,21 +51,26 @@ class ConfigureTwsApiPortTask implements ConfigurationAction{
                 Utils.logToConsole("TWS API socket port is already set to " + tf.getText());
             } else {
                 if (!MainWindowManager.mainWindowManager().isGateway()) {
-                    JCheckBox cb2 = SwingUtils.findCheckBox(configDialog, "Read-Only API");
-                    if (cb2 == null) throw new IBControllerException("could not find Read-Only API checkbox");
-
-                    if (cb2.isSelected()) {
-                        cb2.doClick();
-                        SwingUtils.clickButton(configDialog, "OK");
-                        Utils.logToConsole("TWS has been configured to accept write API connections");
-                    } else {
-                        Utils.logToConsole("TWS is already configured to accept write API connections");
-                    }
+                    JCheckBox cb = SwingUtils.findCheckBox(configDialog, "Enable ActiveX and Socket Clients");
+                    if (cb == null) throw new IBControllerException("could not find Enable ActiveX checkbox");
+                    if (cb.isSelected()) ConfigDialogManager.configDialogManager().setApiConfigChangeConfirmationExpected();
                 }
                 Utils.logToConsole("TWS API socket port was set to " + tf.getText());
                 tf.setText(Integer.toString(portNumber));
                 Utils.logToConsole("TWS API socket port now set to " + tf.getText());
             }
+
+            JCheckBox cb2 = SwingUtils.findCheckBox(configDialog, "Read-Only API");
+            if (cb2 == null) throw new IBControllerException("could not find Read-Only API checkbox");
+
+            if (cb2.isSelected()) {
+                cb2.doClick();
+                SwingUtils.clickButton(configDialog, "OK");
+                Utils.logToConsole("TWS has been configured to accept write API connections");
+            } else {
+                Utils.logToConsole("TWS is already configured to accept write API connections");
+            }
+
         } catch (IBControllerException e) {
             Utils.logException(e);
         }
