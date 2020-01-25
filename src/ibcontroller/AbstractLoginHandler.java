@@ -107,7 +107,7 @@ public abstract class AbstractLoginHandler implements WindowHandler {
                 sb.append("\t");
             }
 
-            Utils.logToConsole("Could not find Trading mode = " + tradingMode + " in Lables:" + sb.toString());
+            Utils.logToConsole("Could not set Trading mode in Lables:" + sb.toString());
         }
     }
 }

@@ -22,6 +22,8 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Window;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -187,7 +189,7 @@ class SwingUtils {
 
     static List<String> getAllLabels(Container container) {
         ComponentIterator iter = new ComponentIterator(container);
-        List<String> lables = new ArrayList<String>();
+        List<String> lables = new ArrayList<>();
 
         while (iter.hasNext()) {
             Component component = iter.next();
