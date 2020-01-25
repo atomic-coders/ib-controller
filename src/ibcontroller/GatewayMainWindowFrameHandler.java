@@ -42,6 +42,10 @@ class GatewayMainWindowFrameHandler  implements WindowHandler {
     public boolean recogniseWindow(Window window) {
         if (! (window instanceof JFrame)) return false;
 
+        if(((JFrame) window).getTitle() == "IB Gateway") {
+            return true;
+        }
+
         return SwingUtils.findMenuItemInAnyMenuBar(window, new String [] {"Help", "About IB Gateway"}) != null;
     }
 
