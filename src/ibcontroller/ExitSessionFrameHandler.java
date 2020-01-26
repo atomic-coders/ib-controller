@@ -73,13 +73,13 @@ class ExitSessionFrameHandler implements WindowHandler {
             if (! SwingUtils.setRadioButtonSelected(window, "PM" /*, true*/)) return false;
         }
 
-        if (SwingUtils.clickButton(window, "Update")) {
+        if (SwingUtils.clickButton(window, "Apply")) {
         } else if (SwingUtils.clickButton(window, "Aktualisieren")) {
         } else {
             return false;
         }
 
-        if (SwingUtils.clickButton(window, "Close")) {
+        if (SwingUtils.clickButton(window, "OK")) {
         } else if (SwingUtils.clickButton(window, "Schliessen")) {
         } else {
             return false;
