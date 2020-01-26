@@ -28,13 +28,14 @@ final class GatewayLoginFrameHandler extends AbstractLoginHandler {
         if (! (window instanceof JFrame)) return false;
 
         return (SwingUtils.titleContains(window, "IB Gateway") &&
-               (SwingUtils.findButton(window, "Log In") != null));
+                ((SwingUtils.findButton(window, "Log In") != null) ||
+                 (SwingUtils.findButton(window, "Login") != null)));
     }
 
     @Override
     protected final boolean initialise(final Window window, int eventID) throws IBControllerException {
         selectGatewayMode(window);
-        setTradingModeCombo(window);
+        setTradingMode(window);
         return true;
     }
     
@@ -97,26 +98,38 @@ final class GatewayLoginFrameHandler extends AbstractLoginHandler {
     
     private void selectGatewayMode(Window window) throws IBControllerException {
         if (Settings.settings().getBoolean("FIX", false)) {
-            Utils.logToConsole("selectGatewayMode to FIX");
             switchToFIX(window);
         } else {
-            Utils.logToConsole("selectGatewayMode to IB API");
             switchToIBAPI(window);
         }
-        Utils.logToConsole("selectGatewayMode done");
     }
     
     private void switchToFIX(Window window) throws IBControllerException {
-        JToggleButton button = SwingUtils.findRadioButton(window, "FIX CTCI");
-        if (button == null) throw new IBControllerException("FIX CTCI radio button");
-        
-        if (! button.isSelected()) button.doClick();
+        if(DefaultSettings.geTWSMajorVersion() >= 978) {
+            JToggleButton button = SwingUtils.findToggleButton(window, "FIX CTCI");
+            if (button == null) throw new IBControllerException("FIX CTCI radio button");
+
+            if (!button.isSelected()) button.doClick();
+        } else {
+            JRadioButton button = SwingUtils.findRadioButton(window, "FIX CTCI");
+            if (button == null) throw new IBControllerException("FIX CTCI radio button");
+
+            if (! button.isSelected()) button.doClick();
+        }
     }
     
     private void switchToIBAPI(Window window) throws IBControllerException {
-        JToggleButton button = SwingUtils.findToggleButton(window, "IB API");
-        if (button == null) throw new IBControllerException("IB API radio button");
-        
-        if (! button.isSelected()) button.doClick();
+        if(DefaultSettings.geTWSMajorVersion() >= 978) {
+            JToggleButton button = SwingUtils.findToggleButton(window, "IB API");
+            if (button == null) throw new IBControllerException("IB API radio button");
+
+            if (!button.isSelected()) button.doClick();
+        } else {
+            JRadioButton button = SwingUtils.findRadioButton(window, "IB API");
+            if (button == null) button = SwingUtils.findRadioButton(window, "TWS/API") ;
+            if (button == null) throw new IBControllerException("IB API radio button");
+
+            if (! button.isSelected()) button.doClick();
+        }
     }
 }

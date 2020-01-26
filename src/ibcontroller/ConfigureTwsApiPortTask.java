@@ -60,6 +60,7 @@ class ConfigureTwsApiPortTask implements ConfigurationAction{
                 Utils.logToConsole("TWS API socket port now set to " + tf.getText());
             }
 
+
             JCheckBox cb2 = SwingUtils.findCheckBox(configDialog, "Read-Only API");
             if (cb2 == null) throw new IBControllerException("could not find Read-Only API checkbox");
 

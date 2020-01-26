@@ -60,16 +60,25 @@ public class DefaultSettings extends Settings {
         }
     }
     
+    static int geTWSMajorVersion() {
+        String version = System.getenv("TWS_MAJOR_VRSN");
+        if(version != null) {
+            return Integer.valueOf(version);
+        }
+        Utils.logToConsole("TWS_MAJOR_VRSN is not available.");
+        return 0;
+    }
+
     static String generateDefaultIniPath() {
         if (System.getProperty("os.name").startsWith("Windows")) {
-            return System.getenv("HOMEDRIVE") + 
-                    System.getenv("HOMEPATH") + File.separator + 
-                    "Documents" + File.separator + 
-                    "IBController" + File.separator + 
+            return System.getenv("HOMEDRIVE") +
+                    System.getenv("HOMEPATH") + File.separator +
+                    "Documents" + File.separator +
+                    "IBController" + File.separator +
                     "IBController.ini";
         } else {
-            return System.getProperty("user.home") + File.separator + 
-                    "IBController" + File.separator + 
+            return System.getProperty("user.home") + File.separator +
+                    "IBController" + File.separator +
                     "IBController.ini";
         }
     }

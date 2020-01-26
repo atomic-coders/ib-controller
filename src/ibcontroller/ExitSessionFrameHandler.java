@@ -60,7 +60,7 @@ class ExitSessionFrameHandler implements WindowHandler {
     }
 
     private boolean adjustExitSessionTime(Window window) {
-        Date newLogoffTime =new Date(System.currentTimeMillis() - 5 * 60 * 1000);
+        Date newLogoffTime = new Date(System.currentTimeMillis() - 5 * 60 * 1000);
         Calendar cal = Calendar.getInstance();
         cal.setTime(newLogoffTime);
         String newLogoffTimeText = new SimpleDateFormat("hh:mm").format(newLogoffTime);
@@ -78,6 +78,7 @@ class ExitSessionFrameHandler implements WindowHandler {
         }
 
         if (SwingUtils.clickButton(window, "Apply")) {
+        } else if (SwingUtils.clickButton(window, "Update")) {
         } else if (SwingUtils.clickButton(window, "Aktualisieren")) {
         } else {
             Utils.logError("could not find Apply button");
@@ -85,6 +86,7 @@ class ExitSessionFrameHandler implements WindowHandler {
         }
 
         if (SwingUtils.clickButton(window, "OK")) {
+        } else if (SwingUtils.clickButton(window, "Close")) {
         } else if (SwingUtils.clickButton(window, "Schliessen")) {
         } else {
             Utils.logError("could not find Ok button");

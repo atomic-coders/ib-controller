@@ -18,9 +18,9 @@
 
 package ibcontroller;
 
-import java.awt.Window;
-import java.awt.event.WindowEvent;
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.WindowEvent;
 
 public abstract class AbstractLoginHandler implements WindowHandler {
     
@@ -37,7 +37,6 @@ public abstract class AbstractLoginHandler implements WindowHandler {
     @Override
     public final void handleWindow(Window window, int eventID) {
         LoginManager.loginManager().setLoginFrame((JFrame) window);
-        Utils.logToConsole("handleWindow eventID: " + eventID);
 
         try {
             if (!initialise(window, eventID)) return;
@@ -46,7 +45,7 @@ public abstract class AbstractLoginHandler implements WindowHandler {
             doLogin(window);
         } catch (IBControllerException e) {
             Utils.logError("could not login: could not find control: " + e.getMessage());
-//            System.exit(1);
+            System.exit(1);
         }
     }
     
@@ -54,28 +53,31 @@ public abstract class AbstractLoginHandler implements WindowHandler {
     public abstract boolean recogniseWindow(Window window);
     
     private void doLogin(final Window window) throws IBControllerException {
-        String logInButtonText = "Log In";
-
-        if (SwingUtils.findButton(window, logInButtonText) == null)
-            logInButtonText = "Paper Log In";
-
-        if (SwingUtils.findButton(window, logInButtonText) == null)
-            throw new IBControllerException("Login button");
-
-        if(logInButtonText.equals("Log In")) {
+        if(DefaultSettings.geTWSMajorVersion() >= 978) {
+          if (SwingUtils.findButton(window, "Log In") != null) {
+                GuiDeferredExecutor.instance().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        SwingUtils.clickButton(window, "Log In");
+                    }
+                });
+            } else if (SwingUtils.findButton(window, "Paper Log In") != null) {
+                GuiDeferredExecutor.instance().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        SwingUtils.clickButton(window, "Paper Log In");
+                    }
+                });
+            }
+        } else if (SwingUtils.findButton(window, "Login") != null) {
             GuiDeferredExecutor.instance().execute(new Runnable() {
                 @Override
                 public void run() {
-                    SwingUtils.clickButton(window, "Log In");
+                    SwingUtils.clickButton(window, "Login");
                 }
             });
         } else {
-            GuiDeferredExecutor.instance().execute(new Runnable() {
-                @Override
-                public void run() {
-                    SwingUtils.clickButton(window, "Paper Log In");
-                }
-            });
+            throw new IBControllerException("Login button");
         }
     }
     
@@ -96,6 +98,14 @@ public abstract class AbstractLoginHandler implements WindowHandler {
         if (! SwingUtils.setTextField(window, credentialIndex, value)) throw new IBControllerException(credentialName);
     }
 
+    protected final void setTradingMode(final Window window) throws IBControllerException {
+        if(DefaultSettings.geTWSMajorVersion() >= 978) {
+            setTradingModeTWS978(window);
+        } else{
+            setTradingModeCombo(window);
+        }
+    }
+
     private void switchToPaperTrading(Window window) throws IBControllerException {
         JToggleButton button = SwingUtils.findToggleButton(window, "Paper Trading");
         if (button == null) throw new IBControllerException("Paper Trading button");
@@ -108,7 +118,7 @@ public abstract class AbstractLoginHandler implements WindowHandler {
         if (! button.isSelected()) button.doClick();
     }
 
-    protected final void setTradingModeCombo978(final Window window) throws IBControllerException {
+    private final void setTradingModeTWS978(final Window window) throws IBControllerException {
         Utils.logToConsole("setTradingModeCombo");
         String tradingMode = TradingModeManager.tradingModeManager().getTradingMode();
         Utils.logToConsole("Setting Trading mode = " + tradingMode);
@@ -119,28 +129,22 @@ public abstract class AbstractLoginHandler implements WindowHandler {
         }
     }
 
-    protected final void setTradingModeCombo(final Window window) throws IBControllerException {
-        int version = Integer.valueOf(System.getenv("TWS_MAJOR_VRSN"));
-        Utils.logToConsole("setTradingModeCombo for tws version: " + version);
-        if(version >= 978) {
-            setTradingModeCombo978(window);
-        } else{
-            if (SwingUtils.findLabel(window, "Trading Mode") != null) {
-                JComboBox<?> tradingModeCombo;
-                if (Settings.settings().getBoolean("FIX", false)) {
-                    tradingModeCombo = SwingUtils.findComboBox(window, 1);
-                } else {
-                    tradingModeCombo = SwingUtils.findComboBox(window, 0);
-                }
+    private void setTradingModeCombo(final Window window) {
+        if (SwingUtils.findLabel(window, "Trading Mode") != null) {
+            JComboBox<?> tradingModeCombo;
+            if (Settings.settings().getBoolean("FIX", false)) {
+                tradingModeCombo = SwingUtils.findComboBox(window, 1);
+            } else {
+                tradingModeCombo = SwingUtils.findComboBox(window, 0);
+            }
 
-                if (tradingModeCombo != null) {
-                    String tradingMode = TradingModeManager.tradingModeManager().getTradingMode();
-                    Utils.logToConsole("Setting Trading mode = " + tradingMode);
-                    if (tradingMode.equalsIgnoreCase(TradingModeManager.TRADING_MODE_LIVE)) {
-                        tradingModeCombo.setSelectedItem("Live Trading");
-                    } else {
-                        tradingModeCombo.setSelectedItem("Paper Trading");
-                    }
+            if (tradingModeCombo != null) {
+                String tradingMode = TradingModeManager.tradingModeManager().getTradingMode();
+                Utils.logToConsole("Setting Trading mode = " + tradingMode);
+                if (tradingMode.equalsIgnoreCase(TradingModeManager.TRADING_MODE_LIVE)) {
+                    tradingModeCombo.setSelectedItem("Live Trading");
+                } else {
+                    tradingModeCombo.setSelectedItem("Paper Trading");
                 }
             }
         }
