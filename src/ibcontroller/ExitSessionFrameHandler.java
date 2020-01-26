@@ -65,7 +65,11 @@ class ExitSessionFrameHandler implements WindowHandler {
         cal.setTime(newLogoffTime);
         String newLogoffTimeText = new SimpleDateFormat("hh:mm").format(newLogoffTime);
 
-        SwingUtils.setTextField(window, 0, newLogoffTimeText);
+        if(!SwingUtils.setTextField(window, 0, newLogoffTimeText)) {
+            Utils.logError("could not set AutoLogoff time to " + newLogoffTimeText + ", text field not found in : ");
+            Utils.logRawToConsole(SwingUtils.getWindowStructure(window));
+            return false;
+        }
 
         if (cal.get(Calendar.AM_PM) == Calendar.AM) {
             if (! SwingUtils.setRadioButtonSelected(window, "AM" /*, true*/)) return false;
@@ -76,12 +80,14 @@ class ExitSessionFrameHandler implements WindowHandler {
         if (SwingUtils.clickButton(window, "Apply")) {
         } else if (SwingUtils.clickButton(window, "Aktualisieren")) {
         } else {
+            Utils.logError("could not find Apply button");
             return false;
         }
 
         if (SwingUtils.clickButton(window, "OK")) {
         } else if (SwingUtils.clickButton(window, "Schliessen")) {
         } else {
+            Utils.logError("could not find Ok button");
             return false;
         }
 
@@ -92,4 +98,3 @@ class ExitSessionFrameHandler implements WindowHandler {
     }
 
 }
-
